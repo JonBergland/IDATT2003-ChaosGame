@@ -59,4 +59,9 @@ public class Vector2D {
     double second_element = this.getX1() - other.getX1();
     return new Vector2D(first_element, second_element);
   }
+
+  @Override
+  public String toString() {
+    return "[" + x0 + ", " + x1 + "]";
+  }
 }
