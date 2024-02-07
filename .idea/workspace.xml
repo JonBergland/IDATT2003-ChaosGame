@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9416520d-d053-4796-bf7d-8817a41e31f9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="9416520d-d053-4796-bf7d-8817a41e31f9" name="Changes" comment="Feat: Add option">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -16,6 +15,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitLabMergeRequestFiltersHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPENED",
+    "assignee": {
+      "type": "org.jetbrains.plugins.gitlab.mergerequest.ui.filters.GitLabMergeRequestsFiltersValue.MergeRequestsMemberFilterValue.MergeRequestsAssigneeFilterValue",
+      "username": "jobergl",
+      "fullname": "Jon Bergland"
+    }
+  }
+}]]></component>
+  <component name="GitLabMergeRequestsSettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "first": "https://gitlab.stud.idi.ntnu.no/josefiar/idatt2003-chaosgame.git",
+    "second": "b272938f-3d63-4aa2-9e5e-2bf0fd60b95e"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -25,25 +40,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;/Users/josefinearntsen/Desktop/IDATT2003 - ChaosGame/IDATT2003-ChaosGame/src/main/java/org/example/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.gitlab.GitLabSettingsConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "/Users/josefinearntsen/Desktop/IDATT2003 - ChaosGame/IDATT2003-ChaosGame/src/main/java/org/example/Main.java",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-20.0.2-azul-20.0.2-3183f394aec4-4edb7f01" />
+        <option value="jdk-21.0.2-openjdk-21.0.2-3183f394aec4-aba903c2" />
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -52,30 +74,47 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1706791382435</updated>
-      <workItem from="1706791383599" duration="2442000" />
-      <workItem from="1706879668838" duration="2111000" />
+      <workItem from="1706791383599" duration="10000" />
+      <workItem from="1707305489268" duration="861000" />
     </task>
+    <task id="LOCAL−00001" summary="Feat: Initialize checkstyle-idea.xml">
+      <option name="closed" value="true" />
+      <created>1707305723417</created>
+      <option name="number" value="LOCAL−00001" />
+      <option name="presentableId" value="LOCAL−00001" />
+      <updated>1707305723417</updated>
+    </task>
+    <task id="LOCAL−00002" summary="Refactor: Change name of package">
+      <option name="closed" value="true" />
+      <created>1707305752463</created>
+      <option name="number" value="LOCAL−00002" />
+      <option name="presentableId" value="LOCAL−00002" />
+      <updated>1707305752463</updated>
+    </task>
+    <task id="LOCAL−00003" summary="Feat: Add option">
+      <option name="closed" value="true" />
+      <created>1707305776334</created>
+      <option name="number" value="LOCAL−00003" />
+      <option name="presentableId" value="LOCAL−00003" />
+      <updated>1707305776334</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Feat: Initialize checkstyle-idea.xml" />
+    <MESSAGE value="Refactor: Change name of package" />
+    <MESSAGE value="Feat: Add option" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: Add option" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/edu/ntnu/stud/Main.java</url>
           <line>15</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
