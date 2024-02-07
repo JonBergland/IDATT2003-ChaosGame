@@ -32,8 +32,9 @@ public class Matrix2x2 {
    * @return The resulting vector after multiplication.
    */
   public Vector2D multiply(Vector2D vector) {
-    // Implementation of matrix-vector multiplication
-    return vector;
+    double x0 = a00 * vector.getX0() + a01 * vector.getX1();
+    double x1 = a10 * vector.getX0() + a11 * vector.getX1();
+    return new Vector2D(x0, x1);
   }
   /**
    * Gets the element at row 0, column 0.
@@ -105,5 +106,11 @@ public class Matrix2x2 {
    */
   public void setA11(double a11) {
     this.a11 = a11;
+  }
+
+  @Override
+  public String toString() {
+    return "Matrix2x2{" + a00 + " " + a01 +
+        " " + a10 + " " + a11 + "}";
   }
 }
