@@ -1,26 +1,37 @@
 package edu.ntnu.stud.math;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class Vector2DTest {
+  double x0;
+  double x1;
+  Vector2D testVector2D;
 
-  @org.junit.jupiter.api.BeforeEach
+  @BeforeEach
   void setUp() {
+    x0 = 1;
+    x1 = 3;
+    testVector2D = new Vector2D(x0, x1);
   }
 
-  @org.junit.jupiter.api.Test
-  void getX0() {
+  @Test
+  void TestGetX0() {
+    assertEquals(x0, testVector2D.getX0());
   }
 
-  @org.junit.jupiter.api.Test
-  void getX1() {
+  @Test
+  void TestGetX1() {
+    assertEquals(x1, testVector2D.getX1());
   }
 
-  @org.junit.jupiter.api.Test
-  void add() {
+  @Test
+  void TestAdd() {
   }
 
-  @org.junit.jupiter.api.Test
-  void subtract() {
+  @Test
+  void TestSubtract() {
   }
 }
