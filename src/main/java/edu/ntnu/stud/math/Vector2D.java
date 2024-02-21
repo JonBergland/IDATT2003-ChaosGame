@@ -43,9 +43,9 @@ public class Vector2D {
    * @return A new Vector2D representing the result of the addition.
    */
   public Vector2D add(Vector2D other) {
-    double first_element = this.getX0() + other.getX0();
-    double second_element = this.getX1() + other.getX1();
-    return new Vector2D(first_element, second_element);
+    double sumX0 = this.getX0() + other.getX0();
+    double sumX1 = this.getX1() + other.getX1();
+    return new Vector2D(sumX0, sumX1);
   }
 
   /**
@@ -55,13 +55,16 @@ public class Vector2D {
    * @return A new Vector2D representing the result of the subtraction.
    */
   public Vector2D subtract(Vector2D other) {
-    double first_element = this.getX0() - other.getX0();
-    double second_element = this.getX1() - other.getX1();
-    return new Vector2D(first_element, second_element);
+    double sumX0 = this.getX0() - other.getX0();
+    double sumX1 = this.getX1() - other.getX1();
+    return new Vector2D(sumX0, sumX1);
   }
 
+  /**
+   * Returns a string representation of this vector.
+   */
   @Override
   public String toString() {
-    return "[" + x0 + ", " + x1 + "]";
+    return "[" + x0 + "\n " + x1 + "]";
   }
 }
