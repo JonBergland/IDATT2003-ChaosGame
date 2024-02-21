@@ -108,9 +108,13 @@ public class Matrix2x2 {
     this.a11 = a11;
   }
 
+
+  /**
+   * Returns a string representation of this matrix.
+   */
   @Override
   public String toString() {
-    return "Matrix2x2{" + a00 + " " + a01 +
-        " " + a10 + " " + a11 + "}";
+    return "[" + a00 + " " + a01 +
+        "\n " + a10 + " " + a11 + "]";
   }
 }
