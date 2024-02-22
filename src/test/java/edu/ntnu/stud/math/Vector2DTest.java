@@ -13,9 +13,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Tests for Vector2D class")
 class Vector2DTest {
   // Arrange
+  /** A {@code double} variable used for testing */
   double x0;
+  /** A {@code double} variable used for testing */
   double x1;
+  /** The {@link Vector2D} variable used for testing. */
   Vector2D vector2D;
+  /** Another {@link Vector2D} variable used for testing. */
   Vector2D testVector;
 
   /**

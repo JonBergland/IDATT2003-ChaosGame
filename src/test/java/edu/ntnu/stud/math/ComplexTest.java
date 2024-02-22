@@ -13,7 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Tests for Complex class")
 class ComplexTest {
   // Arrange
+  /** A {@link Complex} variable used for testing */
   Complex c1;
+  /** A {@link Complex} variable used for testing */
   Complex c2;
 
   /**

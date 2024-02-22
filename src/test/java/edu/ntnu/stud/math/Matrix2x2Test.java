@@ -14,10 +14,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class Matrix2x2Test {
 
   // Arrange
+  /** The {@link Matrix2x2} variable used for testing. */
   Matrix2x2 matrix2x2;
+  /** A {@code double} variable used for testing */
   double a00;
+  /** A {@code double} variable used for testing */
   double a01;
+  /** A {@code double} variable used for testing */
   double a10;
+  /** A {@code double} variable used for testing */
   double a11;
 
   /**
