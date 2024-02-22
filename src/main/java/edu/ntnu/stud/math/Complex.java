@@ -48,8 +48,8 @@ public class Complex extends Vector2D {
    * @return A new Complex object representing the principal square root of this complex number.
    */
   public Complex sqrt() {
-    double x = getX0();
-    double y = getX1();
+    double x = this.getX0();
+    double y = this.getX1();
 
     double newX = partSqrt(x, y, 1);
     double newY = Math.signum(y) * partSqrt(x, y, -1);
