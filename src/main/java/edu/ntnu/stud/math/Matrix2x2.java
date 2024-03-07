@@ -1,14 +1,34 @@
 package edu.ntnu.stud.math;
 
+import edu.ntnu.stud.utils.Verification;
+
 /**
  * Represents a 2x2 matrix with double precision floating-point values.
  * This class provides methods to perform basic matrix operations.
  */
 public class Matrix2x2 {
+  /**
+   * The element at row 0, column 0.
+   */
   private double a00;
+
+  /**
+   * The element at row 0, column 1.
+   */
   private double a01;
+
+  /**
+   * The element at row 1, column 0.
+   */
   private double a10;
+
+  /**
+   * The element at row 1, column 1.
+   */
   private double a11;
+
+  /** The exception message used in IllegalArgumentExceptions */
+  private static final String EXCEPTION_MESSAGE = "The value has to be a valid number";
 
   /**
    * Constructs a 2x2 matrix with the provided elements.
@@ -18,11 +38,31 @@ public class Matrix2x2 {
    * @param a10 Element at row 1, column 0.
    * @param a11 Element at row 1, column 1.
    */
-  public Matrix2x2(double a00, double a01, double a10, double a11) {
-    this.a00 = a00;
-    this.a01 = a01;
-    this.a10 = a10;
-    this.a11 = a11;
+  public Matrix2x2(double a00, double a01, double a10, double a11) throws IllegalArgumentException {
+    try {
+      setA00(a00);
+      setA01(a01);
+      setA10(a10);
+      setA11(a11);
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(e.getMessage());
+    }
+  }
+
+  /**
+   * A copy constructor for Matrix2x2
+   *
+   * @param matrix The matrix to be copied.
+   */
+  public Matrix2x2(Matrix2x2 matrix) throws IllegalArgumentException {
+    if (matrix != null) {
+      this.a00 = matrix.getA00();
+      this.a01 = matrix.getA01();
+      this.a10 = matrix.getA10();
+      this.a11 = matrix.getA11();
+    } else {
+      throw new IllegalArgumentException("Matrix cannot be null");
+    }
   }
 
   /**
@@ -76,8 +116,14 @@ public class Matrix2x2 {
    * Sets the element at row 0, column 0.
    *
    * @param a00 The value to set.
+   * @throws IllegalArgumentException if the value is not a valid number
    */
-  public void setA00(double a00) {
+  public void setA00(double a00) throws IllegalArgumentException {
+    try {
+      Verification.requireANumber(a00);
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(EXCEPTION_MESSAGE + e.getMessage());
+    }
     this.a00 = a00;
   }
 
@@ -85,8 +131,14 @@ public class Matrix2x2 {
    * Sets the element at row 0, column 1.
    *
    * @param a01 The value to set.
+   * @throws IllegalArgumentException if the value is not a valid number
    */
-  public void setA01(double a01) {
+  public void setA01(double a01) throws IllegalArgumentException {
+    try {
+      Verification.requireANumber(a01);
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(EXCEPTION_MESSAGE + e.getMessage());
+    }
     this.a01 = a01;
   }
 
@@ -94,8 +146,14 @@ public class Matrix2x2 {
    * Sets the element at row 1, column 0.
    *
    * @param a10 The value to set.
+   * @throws IllegalArgumentException if the value is not a valid number
    */
-  public void setA10(double a10) {
+  public void setA10(double a10) throws IllegalArgumentException {
+    try {
+      Verification.requireANumber(a10);
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(EXCEPTION_MESSAGE + e.getMessage());
+    }
     this.a10 = a10;
   }
 
@@ -103,11 +161,16 @@ public class Matrix2x2 {
    * Sets the element at row 1, column 1.
    *
    * @param a11 The value to set.
+   * @throws IllegalArgumentException if the value is not a valid number
    */
-  public void setA11(double a11) {
+  public void setA11(double a11) throws IllegalArgumentException {
+    try {
+      Verification.requireANumber(a11);
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(EXCEPTION_MESSAGE + e.getMessage());
+    }
     this.a11 = a11;
   }
-
 
   /**
    * Returns a string representation of this matrix.

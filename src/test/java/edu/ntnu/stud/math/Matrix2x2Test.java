@@ -47,10 +47,10 @@ class Matrix2x2Test {
   class constructorMatrix2x2 {
 
     /**
-     * Test case for the constructor.
+     * Positive test case for the constructor.
      */
     @Test
-    @DisplayName("Test constructor")
+    @DisplayName("Test positive constructor")
     void constructor() {
 
       // Assert
@@ -61,6 +61,81 @@ class Matrix2x2Test {
           () -> assertEquals(2, matrix2x2.getA11(), "Expected value of A11 should be correct.")
       );
     }
+
+    /**
+     * Negative test case for the constructor.
+     */
+    @Test
+    @DisplayName("Test of constructor with not correct values")
+    void constructorNegative() {
+      a00 = 3;
+      a01 = 2;
+      a10 = 2;
+      a11 = 3;
+
+      // Assert
+      assertAll("Constructor",
+          () -> assertNotEquals(3, matrix2x2.getA00(), "Expected value of A00 should not be correct."),
+          () -> assertNotEquals(2, matrix2x2.getA01(), "Expected value of A01 should not be correct."),
+          () -> assertNotEquals(2, matrix2x2.getA10(), "Expected value of A10 should not be correct."),
+          () -> assertNotEquals(3, matrix2x2.getA11(), "Expected value of A11 should not be correct.")
+      );
+    }
+
+    /**
+     * Test case for the copy constructor.
+     */
+    @Test
+    @DisplayName("Test copy constructor")
+    void copyConstructor() {
+
+      // Act
+      Matrix2x2 copyMatrix = new Matrix2x2(matrix2x2);
+
+      // Assert
+      assertAll("Copy constructor",
+          () -> assertNotEquals(matrix2x2, copyMatrix, "Expected copyMatrix to be a new instance."),
+          () -> assertEquals(matrix2x2.getA00(), copyMatrix.getA00(), "Expected value of A00 should be correct."),
+          () -> assertEquals(matrix2x2.getA01(), copyMatrix.getA01(), "Expected value of A01 should be correct."),
+          () -> assertEquals(matrix2x2.getA10(), copyMatrix.getA10(), "Expected value of A10 should be correct."),
+          () -> assertEquals(matrix2x2.getA11(), copyMatrix.getA11(), "Expected value of A11 should be correct.")
+      );
+    }
+
+    /**
+     * Negative test case for the constructor
+     */
+    @Test
+    @DisplayName("Test of constructor with invalid values")
+    void constructorInvalidValues() {
+      double wrongNan = Double.NaN;
+      double wrongInfinity = Double.POSITIVE_INFINITY;
+
+      // Assert
+      assertAll("Constructor",
+          () -> assertThrows(IllegalArgumentException.class, () -> new Matrix2x2(wrongNan, a01, a10, a11), "Expected IllegalArgumentException to be thrown."),
+          () -> assertThrows(IllegalArgumentException.class, () -> new Matrix2x2(a00, wrongNan, a10, a11), "Expected IllegalArgumentException to be thrown."),
+          () -> assertThrows(IllegalArgumentException.class, () -> new Matrix2x2(a00, a01, wrongNan, a11), "Expected IllegalArgumentException to be thrown."),
+          () -> assertThrows(IllegalArgumentException.class, () -> new Matrix2x2(a00, a01, a10, wrongNan), "Expected IllegalArgumentException to be thrown."),
+          () -> assertThrows(IllegalArgumentException.class, () -> new Matrix2x2(wrongInfinity, a01, a10, a11), "Expected IllegalArgumentException to be thrown."),
+          () -> assertThrows(IllegalArgumentException.class, () -> new Matrix2x2(a00, wrongInfinity, a10, a11), "Expected IllegalArgumentException to be thrown."),
+          () -> assertThrows(IllegalArgumentException.class, () -> new Matrix2x2(a00, a01, wrongInfinity, a11), "Expected IllegalArgumentException to be thrown."),
+          () -> assertThrows(IllegalArgumentException.class, () -> new Matrix2x2(a00, a01, a10, wrongInfinity), "Expected IllegalArgumentException to be thrown.")
+      );
+    }
+
+    /**
+     * Negative test case for the copy constructor
+     */
+    @Test
+    @DisplayName("Test copy constructor with a null object")
+    void copyConstructorNull() {
+
+      // Assert
+      assertThrows(IllegalArgumentException.class, () -> new Matrix2x2(null), "Expected IllegalArgumentException to be thrown.");
+    }
+
+
   }
 
   /**
@@ -86,6 +161,26 @@ class Matrix2x2Test {
       assertAll("Multiplication",
           () -> assertEquals(5.0, resultVector.getX0(), "Expected x0 component of the result vector to be correct."),
           () -> assertEquals(4.0, resultVector.getX1(), "Expected x1 component of the result vector to be correct.")
+      );
+    }
+
+    /**
+     * Test case for the multiply method with negative values.
+     */
+    @Test
+    @DisplayName("Test multiply method with negative values")
+    void multiplyNegative() {
+
+      // Arrange
+      Vector2D multiplyVector = new Vector2D(-2, -1);
+
+      // Act
+      Vector2D resultVector = matrix2x2.multiply(multiplyVector);
+
+      // Assert
+      assertAll("Multiplication",
+          () -> assertEquals(-5.0, resultVector.getX0(), "Expected x0 component of the result vector to be correct."),
+          () -> assertEquals(-4.0, resultVector.getX1(), "Expected x1 component of the result vector to be correct.")
       );
     }
   }

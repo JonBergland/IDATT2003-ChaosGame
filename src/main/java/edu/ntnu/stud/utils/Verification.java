@@ -17,9 +17,11 @@ public class Verification {
    * @param notANumberMessage         the error message sent
    * @throws IllegalArgumentException the exception thrown when not a number
    */
-  public static void requireANumber(Double number, String notANumberMessage)
+  public static void requireANumber(double number, String notANumberMessage)
   throws IllegalArgumentException {
-    if (number.isNaN()) {
+    if (Double.isNaN(number)) {
+      throw new IllegalArgumentException(notANumberMessage);
+    } else if (Double.isInfinite(number)) {
       throw new IllegalArgumentException(notANumberMessage);
     }
   }
