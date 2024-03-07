@@ -8,7 +8,14 @@ import edu.ntnu.stud.math.Vector2D;
  * implements the Interface {@code Transform2D}
  */
 public class JuliaTransform implements Transform2D {
+  /**
+   * The complex constant used in the Julia Transformation.
+   */
   Complex point;
+
+  /**
+   * The sign used in the Julia Transformation.
+   */
   int sign;
 
   /**

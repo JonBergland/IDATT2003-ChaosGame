@@ -49,13 +49,79 @@ class Vector2DTest {
      */
     @Test
     @DisplayName("Test of constructor")
-    void testOfConstructor() {
+    void constructor() {
 
       // Assert
       assertAll("Constructor",
           () -> assertEquals(x0, vector2D.getX0(), "Should be the correct value."),
           () -> assertEquals(x1, vector2D.getX1(), "Should be the correct value.")
       );
+    }
+
+
+    /**
+     * Negative test case for the constructor.
+     */
+    @Test
+    @DisplayName("Negative test of constructor")
+    void constructorNegativeTest() {
+      // Arrange
+      x0 = 1;
+      x1 = 2;
+
+      // Assert
+      assertAll("Constructor Negative",
+          () -> assertNotEquals(1, vector2D.getX0(), "Expected value of x0 should not be correct"),
+          () -> assertNotEquals(2, vector2D.getX1(), "Expected value of x1 should not be correct")
+      );
+    }
+
+
+    /**
+     * Test case for the copy constructor.
+     */
+    @Test
+    @DisplayName("Test copy constructor")
+    void copyConstructor() {
+
+      // Act
+      Vector2D copyVector = new Vector2D(vector2D);
+
+      // Assert
+      assertAll("Copy constructor",
+          () -> assertNotEquals(vector2D, copyVector, "Expected copyVector to be a new instance."),
+          () -> assertEquals(vector2D.getX0(), copyVector.getX0(), "Expected value of x0 should be correct."),
+          () -> assertEquals(vector2D.getX1(), copyVector.getX1(), "Expected value of x1 should be correct.")
+      );
+    }
+
+    /**
+     * Negative test case for the constructor
+     */
+    @Test
+    @DisplayName("Test of constructor with invalid values")
+    void constructorInvalidValues() {
+      //Arrange
+      double wrongNan = Double.NaN;
+      double wrongInfinity = Double.POSITIVE_INFINITY;
+
+      // Assert
+      assertAll("Constructor",
+          () -> assertThrows(IllegalArgumentException.class, () -> new Vector2D(wrongNan, x1), "Expected IllegalArgumentException to be thrown."),
+          () -> assertThrows(IllegalArgumentException.class, () -> new Vector2D(x0, wrongNan), "Expected IllegalArgumentException to be thrown."),
+          () -> assertThrows(IllegalArgumentException.class, () -> new Vector2D(wrongInfinity, x1), "Expected IllegalArgumentException to be thrown."),
+          () -> assertThrows(IllegalArgumentException.class, () -> new Vector2D(x0, wrongInfinity), "Expected IllegalArgumentException to be thrown.")
+      );
+    }
+
+    /**
+     * Negative test case for the copy constructor
+     */
+    @Test
+    @DisplayName("Test copy constructor with a null object")
+    void copyConstructorNull() {
+      // Assert
+      assertThrows(IllegalArgumentException.class, () -> new Vector2D(null), "Expected IllegalArgumentException to be thrown.");
     }
   }
 
