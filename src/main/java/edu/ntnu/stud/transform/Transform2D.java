@@ -6,7 +6,7 @@ import edu.ntnu.stud.math.Vector2D;
  * Represents a 2D transformation operation.
  * Implementing classes provide methods to transform 2D vectors.
  */
-interface Transform2D {
+public interface Transform2D {
   /**
    * This method takes a vector in as parameter and transforms it.
    *
