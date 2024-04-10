@@ -36,4 +36,9 @@ public class AffineTransform2D implements Transform2D {
   public Vector2D transform(Vector2D point) {
     return this.matrix.multiply(point).add(this.vector);
   }
+
+  public String toString() {
+    return matrix.getA00() + ", " + matrix.getA01() + ", " + matrix.getA10() + ", " + matrix.getA11()
+        + ", " + vector.getX0() + ", " + vector.getX1();
+  }
 }

@@ -6,4 +6,5 @@ checkstyle-idea.xml
 /misc.xml
 /vcs.xml
 /workspace.xml
-./shelf
+./shelf# GitHub Copilot persisted chat sessions
+/copilot/chatSessions

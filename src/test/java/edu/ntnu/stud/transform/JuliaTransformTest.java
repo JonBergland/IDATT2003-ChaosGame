@@ -20,7 +20,9 @@ class JuliaTransformTest {
   JuliaTransform juliaTransform;
 
   /** The {@link Complex} number used for testing. */
-  Complex complex;
+  Complex constantC;
+
+  Complex complexReal;
 
   /**
    * Sets up the necessary objects and configurations before each test method.
@@ -28,11 +30,13 @@ class JuliaTransformTest {
   @BeforeEach
   void setUp() {
 
+    complexReal = new Complex(-0.74543, 0.11301);
+
     // Arrange
-    double real = 0.4;
-    double imaginary = 0.2;
-    complex = new Complex(real, imaginary);
-    juliaTransform = new JuliaTransform(complex, 1);
+    double real = 0.3;
+    double imaginary = 0.6;
+    constantC = new Complex(real, imaginary);
+    juliaTransform = new JuliaTransform(constantC, 1);
   }
 
   /**
@@ -43,7 +47,7 @@ class JuliaTransformTest {
   @DisplayName("Test transform method")
   void transform() {
     // Arrange
-    Complex complexC = new Complex(0.3, 0.6);
+    Complex complexC = new Complex(0.4, 0.2);
 
     // Act
     Vector2D result = juliaTransform.transform(complexC);
