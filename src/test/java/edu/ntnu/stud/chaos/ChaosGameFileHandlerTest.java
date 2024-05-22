@@ -24,7 +24,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("ChaosGameFileHandler Tests")
+/**
+  * Test class for {@link ChaosGameFileHandler}.
+ */
 class ChaosGameFileHandlerTest {
 
   /** Handles file operations related to the Chaos Game,
@@ -60,9 +62,9 @@ class ChaosGameFileHandlerTest {
   @BeforeEach
   void setUp() {
     fileHandler = new ChaosGameFileHandler();
-    juliaFilePath = "JuliaSet.txt";
-    sierpinskiFilePath = "SierpinskiTriangle.txt";
-    barnsleyFilePath = "BarnsleyFern.txt";
+    juliaFilePath = "julia.txt";
+    sierpinskiFilePath = "sierpinski.txt";
+    barnsleyFilePath = "barnsley-fern.txt";
     nonExistentFilePath = "NonExistent.txt";
     testExceptionFile = "TestExceptionFile.txt";
     affineTransform2D = new AffineTransform2D(null, null);
@@ -83,7 +85,7 @@ class ChaosGameFileHandlerTest {
     @DisplayName("Read JuliaSet from File")
     void readFromFile_Julia() {
       try {
-        ChaosGameDescription description = fileHandler.readFromFile(juliaFilePath);
+        ChaosGameDescription description = fileHandler.readFromFile("src/main/resources/file/" + juliaFilePath);
 
         // Assert
         assertNotNull(description, "ChaosGameDescription should not be null");
@@ -95,14 +97,14 @@ class ChaosGameFileHandlerTest {
       }
     }
 
-    /**
+     /**
      * Tests reading from file for Affine transformation.
      */
     @Test
     @DisplayName("Read AffineTransformation from File")
     void readFromFile_Affine() {
       try {
-        ChaosGameDescription description = fileHandler.readFromFile(sierpinskiFilePath);
+        ChaosGameDescription description = fileHandler.readFromFile("src/main/resources/file/" + sierpinskiFilePath);
 
         // Assert
         assertNotNull(description, "ChaosGameDescription should not be null");
@@ -174,8 +176,7 @@ class ChaosGameFileHandlerTest {
     void writeToFile_Julia() {
       try {
         List<Transform2D> transform2DList = Arrays.asList(
-            new JuliaTransform(new Complex(0.5,0.5),1),
-            new JuliaTransform(new Complex(-0.5,-0.5),-1)
+            new JuliaTransform(new Complex(0.5,0.5),1)
         );
 
         ChaosGameDescription description =
@@ -225,7 +226,7 @@ class ChaosGameFileHandlerTest {
         ChaosGameDescription readDescription = fileHandler.readFromFile(sierpinskiFilePath);
         assertNotNull(readDescription);
         assertEquals(affineTransform2D.getClass(), readDescription.getTransformationType());
-        assertEquals(3, readDescription.getTransforms().size());
+        assertEquals(2, readDescription.getTransforms().size());
         assertTrue(Files.exists((Paths.get(sierpinskiFilePath))));
 
       } catch (IOException e) {

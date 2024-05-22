@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test class for Vector2D.
+ * Test class for the {@link Vector2D} class.
  */
 @DisplayName("Tests for Vector2D class")
 class Vector2DTest {
@@ -217,7 +217,7 @@ class Vector2DTest {
     @DisplayName("Test toString method")
     void testToString() {
       // Arrange
-      String expectedString = "[3.0\n 4.0]";
+      String expectedString = "3.0, 4.0";
 
       // Act
       String actualString = vector2D.toString();

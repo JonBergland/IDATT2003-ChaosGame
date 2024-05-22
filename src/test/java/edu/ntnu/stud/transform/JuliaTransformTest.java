@@ -41,10 +41,10 @@ class JuliaTransformTest {
 
   /**
    * Tests the {@link JuliaTransform#transform(Vector2D)} method.
-   * It verifies the transformation behavior of the Julia set.
+   * It verifies the transformation behavior of the Julia set with a positive sign.
    */
   @Test
-  @DisplayName("Test transform method")
+  @DisplayName("Test transform method with positive sign")
   void transform() {
     // Arrange
     Complex complexC = new Complex(0.4, 0.2);
@@ -57,5 +57,39 @@ class JuliaTransformTest {
         () -> assertEquals(0.506, result.getX0(), 0.01, "Expected x0 component of the result vector to be correct."),
         () -> assertEquals(-0.395, result.getX1(), 0.01, "Expected x1 component of the result vector to be correct.")
     );
+  }
+
+  /**
+   * Tests the {@link JuliaTransform#transform(Vector2D)} method.
+   * It verifies the transformation behavior of the Julia set with a negative sign.
+   */
+  @Test
+  @DisplayName("Test transform method with negative sign")
+  void transformNegativeSign() {
+    // Arrange
+    Complex complexC = new Complex(0.4, 0.2);
+    JuliaTransform juliaTransform = new JuliaTransform(constantC, -1);
+
+    // Act
+    Vector2D result = juliaTransform.transform(complexC);
+
+    // Assert
+    assertAll("Transformation",
+        () -> assertEquals(-0.506, result.getX0(), 0.01, "Expected x0 component of the result vector to be correct."),
+        () -> assertEquals(0.395, result.getX1(), 0.01, "Expected x1 component of the result vector to be correct.")
+    );
+  }
+
+  /**
+   * Tests the get Point method.
+   */
+  @Test
+  @DisplayName("Test getPoint method")
+  void getPoint() {
+    // Act
+    Complex result = juliaTransform.getPoint();
+
+    // Assert
+    assertEquals(constantC, result, "Expected the complex constant to be correct.");
   }
 }

@@ -2,7 +2,6 @@ package edu.ntnu.stud.chaos;
 
 import edu.ntnu.stud.math.Vector2D;
 import edu.ntnu.stud.transform.Transform2D;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +33,8 @@ public class ChaosGameDescription {
    * @param minCoords   the minimum coordinates of the chaos game.
    * @param maxCoords   the maximum coordinates of the chaos game.
    */
-  public ChaosGameDescription(List<Transform2D> transforms, Vector2D minCoords, Vector2D maxCoords) {
+  public ChaosGameDescription(List<Transform2D> transforms,
+                              Vector2D minCoords, Vector2D maxCoords) {
     try {
       if (transforms == null || minCoords == null || maxCoords == null) {
         throw new IllegalArgumentException("The input cannot be null");
@@ -76,7 +76,52 @@ public class ChaosGameDescription {
     return new Vector2D(maxCoords);
   }
 
+  /**
+   * Get the type of transformation used to generate the chaos game.
+   *
+   * @return the type of transformation used to generate the chaos game.
+   */
   public Class<? extends Transform2D> getTransformationType() {
-    return transforms.get(0).getClass();
+    return transforms.getFirst().getClass();
   }
+
+  /**
+   * Set the list of transforms used to generate the chaos game.
+   *
+   * @param transforms The list of transforms used to generate the chaos game.
+   */
+  public void setTransforms(List<Transform2D> transforms) {
+    if (transforms == null || transforms.isEmpty()) {
+      throw new IllegalArgumentException("The input cannot be null");
+    }
+
+    if (this.transforms != transforms) {
+      this.transforms.clear();
+      this.transforms.addAll(transforms);
+    }
+  }
+
+  /**
+   * Set the minimum coordinates of the chaos game.
+   *
+   * @param x0  The x0 coordinate of the vector
+   * @param x1  The x1 coordinate of the vector
+   */
+  public void setMinCoords(double x0, double x1) {
+    this.minCoords.setX0(x0);
+    this.minCoords.setX1(x1);
+  }
+
+  /**
+   * Set the maximum coordinates of the chaos game.
+   *
+   * @param x0  The x0 coordinate of the vector
+   * @param x1  The x1 coordinate of the vector
+   */
+  public void setMaxCoords(double x0, double x1) {
+    this.maxCoords.setX0(x0);
+    this.maxCoords.setX1(x1);
+  }
+
+
 }

@@ -5,30 +5,37 @@ import edu.ntnu.stud.math.Vector2D;
 
 /**
  * This class represents a JuliaTransformation and
- * implements the Interface {@code Transform2D}
+ * implements the Interface {@code Transform2D}.
  */
 public class JuliaTransform implements Transform2D {
-  /**
-   * The complex constant used in the Julia Transformation.
-   */
-  Complex point;
 
-  /**
-   * The sign used in the Julia Transformation.
-   */
-  int sign;
+  /** The complex constant used in the Julia Transformation. */
+  private final Complex point;
+
+  /** The sign used in the Julia Transformation. */
+  private final int sign;
 
   /**
    * The constructor for the JuliaTransformation class.
    * This class implements the Interface {@code Transform2D}
    * and takes in a complex constant and the wanted sign for the
-   * resulting transformation
+   * resulting transformation.
+   *
    * @param point  The complex constant
    * @param sign   The wanted sign for the resulting transformation
    */
   public JuliaTransform(Complex point, int sign) {
     this.point = point;
     this.sign = sign;
+  }
+
+  /**
+   * Get the complex constant used in the Julia Transformation.
+   *
+   * @return The complex constant used in the Julia Transformation.
+   */
+  public Complex getPoint() {
+    return point;
   }
 
   /**
@@ -42,11 +49,16 @@ public class JuliaTransform implements Transform2D {
     Complex pointComplex = new Complex(point.getX0(), point.getX1());
     Complex subtract = pointComplex.subtract(this.point);
 
-      Complex squareRoot = subtract.sqrt();
+    Complex squareRoot = subtract.sqrt();
 
-      return (sign == 1) ? squareRoot : new Complex(- squareRoot.getX0(), - squareRoot.getX1());
+    return (sign == 1) ? squareRoot : new Complex(- squareRoot.getX0(), - squareRoot.getX1());
   }
 
+  /**
+   * Returns a string representation of the JuliaTransformation.
+   *
+   * @return A string representation of the JuliaTransformation.
+   */
   public String toString() {
     return point.getX0() + ", " + sign * point.getX1();
   }

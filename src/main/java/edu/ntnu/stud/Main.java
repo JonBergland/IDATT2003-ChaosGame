@@ -1,19 +1,17 @@
 package edu.ntnu.stud;
 
-import edu.ntnu.stud.chaos.ChaosGame;
-import edu.ntnu.stud.chaos.ChaosGameDescription;
-import edu.ntnu.stud.chaos.ChaosGameFileHandler;
-import java.io.IOException;
-
+/**
+ * The entry point of the Chaos Game application.
+ * Initializes the main JavaFX application by invoking the `main` method of the `App` class.
+ */
 public class Main {
-  public static void main(final String[] args) throws IOException {
 
-    //App.main(args);
-
-    ChaosGameFileHandler chaosGameFileHandler = new ChaosGameFileHandler();
-    ChaosGameDescription chaosGameDescription = chaosGameFileHandler.readFromFile("JuliaSet.txt");
-    ChaosGame chaosGame = new ChaosGame(chaosGameDescription,50, 50);
-
-    chaosGame.runSteps(1000);
+  /**
+   * The main method. Invokes the main method of the `App` class to start the application.
+   *
+   * @param args the command-line arguments.
+   */
+  public static void main(final String[] args) {
+    App.main(args);
   }
 }

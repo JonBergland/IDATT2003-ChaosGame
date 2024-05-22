@@ -1,39 +1,42 @@
 package edu.ntnu.stud.utils;
 
-import edu.ntnu.stud.math.Complex;
-import edu.ntnu.stud.math.Vector2D;
-
+/**
+ * This class provides utility methods for verification purposes.
+ */
 public class Verification {
 
-  public static void isInstanceOfComplex(Vector2D verifyVector) {
-    if (!(verifyVector instanceof Complex)) {
-      throw new IllegalArgumentException("Argument is not an Complex number");
-    }
+  /**
+   * This constructor is empty because it is not needed.
+   * The class is a utility class and should not be instantiated.
+   */
+  private Verification() {
   }
 
   /**
-   * Checks if a double is a number and throws an IllegalArgumentException if it is not
+   * Checks if a double is a valid number.
+   *
    * @param number                    the number that is checked
-   * @param notANumberMessage         the error message sent
+   * @param notNumberMessage         the error message sent
    * @throws IllegalArgumentException the exception thrown when not a number
    */
-  public static void requireANumber(double number, String notANumberMessage)
-  throws IllegalArgumentException {
+  public static void requireNumber(double number, String notNumberMessage)
+      throws IllegalArgumentException {
     if (Double.isNaN(number)) {
-      throw new IllegalArgumentException(notANumberMessage);
+      throw new IllegalArgumentException(notNumberMessage + " (NaN)");
     } else if (Double.isInfinite(number)) {
-      throw new IllegalArgumentException(notANumberMessage);
+      throw new IllegalArgumentException(notNumberMessage + " (infinite)");
     }
   }
 
   /**
-   * Checks if a double is a number and throws an IllegalArgumentException if it is not.
+   * Checks if a Double object is a valid number.
+   *
    * @param number                      the number that is checked
    * @throws IllegalArgumentException   the exception thrown when not a number
    */
-  public static void requireANumber(Double number)
-  throws IllegalArgumentException {
-    requireANumber(number, "The parameter was not a number");
+  public static void requireNumber(Double number)
+      throws IllegalArgumentException {
+    requireNumber(number, "The parameter was not a number");
   }
 
 

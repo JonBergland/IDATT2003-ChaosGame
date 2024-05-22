@@ -17,14 +17,72 @@
 }
 
 .chaos-game-button {
-    -fx-background-color: #F08A11;
+    -fx-background-color: #98ccff;
+}
+
+.chaos-game-button:hover {
+    -fx-background-color: #0a60af;
+    -fx-text-fill: white;
 }
 
 .chaos-game-button-checked {
-    -fx-background-color: #8BC34A;
+    -fx-background-color: #Ddbea7;
 }
 
-.start-button {
-    -fx-background-color: #4AC248;
+.chaos-game-button-checked:hover {
+    -fx-background-color: #b2724d;
+    -fx-text-fill: white;
+}
+
+.start-button-blue {
+    -fx-background-color: #59a5ff;
     -fx-font-size: 20;
+    -fx-text-fill: black;
+}
+.start-button-blue:hover {
+    -fx-background-color: #1f82e7;
+    -fx-text-fill: white;
+}
+
+.input-box {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 10;
+}
+
+.headline-text {
+    -fx-font-size: 14;
+}
+
+.transformation-text {
+    -fx-font-size: 13;
+    -fx-font-weight: bold;
+}
+
+.matrix-text {
+    -fx-font-size: 12;
+}
+
+.blue {
+    -fx-background-color: #c6e3ff;
+    -fx-font-size: 16;
+}
+.blue:hover {
+    -fx-background-color: #5da6f1;
+}
+
+.brown {
+    -fx-background-color: #Ddbea7;
+    -fx-font-size: 16;
+}
+.brown:hover {
+    -fx-background-color: #b2724d;
+    -fx-text-fill: white;
+}
+
+.background {
+    -fx-background-color: #f3f6ff;
+}
+
+.navbar-background {
+    -fx-background-color: #c6e3ff;
 }

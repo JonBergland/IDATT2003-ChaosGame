@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Nested;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for the Matrix2x2 class.
+ * Unit tests for the {@link Matrix2x2} class.
  */
 @DisplayName("Tests for Matrix2x2 class")
 class Matrix2x2Test {
@@ -89,7 +89,7 @@ class Matrix2x2Test {
     @DisplayName("Test copy constructor")
     void copyConstructor() {
 
-      // Act
+      // Arrange
       Matrix2x2 copyMatrix = new Matrix2x2(matrix2x2);
 
       // Assert

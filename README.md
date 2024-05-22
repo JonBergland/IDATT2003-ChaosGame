@@ -35,6 +35,10 @@ https://gitlab.stud.idi.ntnu.no/josefiar/idatt2003-chaosgame
 [//]: # (TODO: Describe how to run your project here. What is the main class? What is the main method?
 What is the input and output of the program? What is the expected behaviour of the program?)
 To run the project, follow these steps:
+```bash
+mvn clean compile
+mvn javafx:run
+```
 
 Open the project in a Java IDE like IntelliJ.
 
@@ -55,6 +59,14 @@ Open the project in a Java IDE.
 Navigate to the test folder.
 
 Right-click on the JUnit test classes and select "Run" to execute the tests.
+
+```bash
+mvn clean test
+```
+
+```bash
+mvn jacoco:report
+```
 
 ## References
 

@@ -21,6 +21,9 @@ test:
     reports:
       junit:
         - target/surefire-reports/TEST-*.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: target/jacoco/coverage-reports/jacoco.xml
 
 package:
   stage: package
@@ -29,4 +32,26 @@ package:
   artifacts:
     paths:
       - target/IDATT2003-ChaosGame-0.1-SNAPSHOT.jar
+
+
+pages:
+  stage: deploy
+  when: manual
+  script:
+    - mvn clean package
+    - mvn javadoc:javadoc
+    - ls target/site/
+    - ls target/site/apidocs/
+    - mkdir .public
+    - cd .public
+    - mkdir apidocs
+    - cd ..
+    - cp -rf target/site/apidocs/* .public/apidocs/
+    - cp -rf target/jacoco/* .public
+    - cp -rf page/index.html .public
+    - mv -f .public public
+  artifacts:
+    paths:
+      - public
+
 

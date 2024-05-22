@@ -6,17 +6,14 @@ import edu.ntnu.stud.utils.Verification;
  * Represents a two-dimensional vector with double precision floating-point components.
  */
 public class Vector2D {
-  /**
-   * The first component of the vector.
-   */
+
+  /** The first component of the vector. */
   private double x0;
 
-  /**
-   * The second component of the vector.
-   */
+  /** The second component of the vector. */
   private double x1;
 
-  /** The exception message used in IllegalArgumentExceptions */
+  /** The exception message used in IllegalArgumentExceptions. */
   private static final String EXCEPTION_MESSAGE = "The value has to be a valid number";
 
   /**
@@ -35,7 +32,7 @@ public class Vector2D {
   }
 
   /**
-   * A copy constructor for Vector2D
+   * A copy constructor for Vector2D.
    *
    * @param vector The vector to be copied.
    */
@@ -75,7 +72,7 @@ public class Vector2D {
    */
   public void setX0(double x0) throws IllegalArgumentException {
     try {
-      Verification.requireANumber(x0);
+      Verification.requireNumber(x0);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException(EXCEPTION_MESSAGE + e.getMessage());
     }
@@ -90,7 +87,7 @@ public class Vector2D {
    */
   public void setX1(double x1) throws IllegalArgumentException {
     try {
-      Verification.requireANumber(x1);
+      Verification.requireNumber(x1);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException(EXCEPTION_MESSAGE + e.getMessage());
     }
@@ -126,6 +123,6 @@ public class Vector2D {
    */
   @Override
   public String toString() {
-    return "[" + x0 + "\n " + x1 + "]";
+    return x0 + ", " + x1;
   }
 }
