@@ -64,6 +64,9 @@ To get the test coverage use the command
 mvn jacoco:report
 ```
 
+You can also look at the testcoverage and Javadoc page here:
+https://idatt2003-chaosgame-josefiar-47d1f881c79388fef5ac96aaf2d49488eb.pages.stud.idi.ntnu.no/
+
 ## References
 
 No other specific references were used in this project
