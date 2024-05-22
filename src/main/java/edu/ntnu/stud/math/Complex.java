@@ -12,7 +12,7 @@ public class Complex extends Vector2D {
    * @param realPart The real part of the complex number.
    * @param imaginaryPart The imaginary part of the complex number.
    */
-  public Complex(double realPart, double imaginaryPart){
+  public Complex(double realPart, double imaginaryPart) {
     super(realPart, imaginaryPart);
   }
 
@@ -33,7 +33,8 @@ public class Complex extends Vector2D {
    * Subtracts another Vector2D (considered as a complex number) from this complex number.
    *
    * @param other The other Vector2D to be subtracted.
-   * @return A new Complex object representing the result of subtracting the other complex number from this.
+   * @return A new Complex object representing the result of subtracting
+   *        the other complex number from this.
    */
   @Override
   public Complex subtract(Vector2D other) {
@@ -66,6 +67,6 @@ public class Complex extends Vector2D {
    * @return The computed part of the square root.
    */
   private double partSqrt(double x, double y, int sign) {
-    return Math.sqrt((double) 1 /2 * (Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) + sign*x));
+    return Math.sqrt((double) 1 / 2 * (Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) + sign * x));
   }
 }

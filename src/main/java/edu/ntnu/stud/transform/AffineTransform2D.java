@@ -28,6 +28,24 @@ public class AffineTransform2D implements Transform2D {
   }
 
   /**
+   * Returns the matrix of the affine transformation.
+   *
+   * @return the matrix of {@link Matrix2x2}-class
+   */
+  public Matrix2x2 getMatrix() {
+    return matrix;
+  }
+
+  /**
+   * Returns the vector of the affine transformation.
+   *
+   * @return the vector of {@link Vector2D}-class
+   */
+  public Vector2D getVector() {
+    return vector;
+  }
+
+  /**
    * Transforms a 2D point using this affine transformation.
    *
    * @param point the 2D point to be transformed.
@@ -37,8 +55,13 @@ public class AffineTransform2D implements Transform2D {
     return this.matrix.multiply(point).add(this.vector);
   }
 
+  /**
+   * Returns a string representation of this AffineTransform2D object.
+   *
+   * @return a string representation of this object.
+   */
   public String toString() {
-    return matrix.getA00() + ", " + matrix.getA01() + ", " + matrix.getA10() + ", " + matrix.getA11()
-        + ", " + vector.getX0() + ", " + vector.getX1();
+    return matrix.getA00() + ", " + matrix.getA01() + ", " + matrix.getA10() + ", "
+        + matrix.getA11() + ", " + vector.getX0() + ", " + vector.getX1();
   }
 }

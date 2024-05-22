@@ -56,4 +56,29 @@ class AffineTransform2DTest {
         () -> assertEquals(3, actual.getX1(), "Expected x1 component of the result vector to be correct.")
     );
   }
+
+  /**
+   * Tests the {@code getMatrix} method.
+   * Ensures that the returned matrix is not null and matches the expected matrix.
+   */
+  @Test
+  @DisplayName("Test get matrix")
+  void testGetMatrix() {
+    Matrix2x2 result = affineTransform2D.getMatrix();
+    assertNotNull(result, "Matrix should not be null");
+    assertEquals(matrix2x2, result,"Matrix should be the same as the expected matrix");
+  }
+
+  /**
+   * Tests the {@code getVector} method.
+   * Ensures that the returned vector is not null and matches the expected vector.
+   */
+  @Test
+  @DisplayName("Test get vector")
+  void testGetVector() {
+    Vector2D result = affineTransform2D.getVector();
+    Vector2D expectedVector = vector2D;
+    assertNotNull(result, "Vector should not be null");
+    assertEquals(expectedVector, result, "Vector should be the same as the expected vector");
+  }
 }

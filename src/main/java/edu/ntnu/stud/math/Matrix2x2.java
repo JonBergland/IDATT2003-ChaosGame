@@ -7,27 +7,20 @@ import edu.ntnu.stud.utils.Verification;
  * This class provides methods to perform basic matrix operations.
  */
 public class Matrix2x2 {
-  /**
-   * The element at row 0, column 0.
-   */
+
+  /** The element at row 0, column 0. */
   private double a00;
 
-  /**
-   * The element at row 0, column 1.
-   */
+  /** The element at row 0, column 1. */
   private double a01;
 
-  /**
-   * The element at row 1, column 0.
-   */
+  /** The element at row 1, column 0. */
   private double a10;
 
-  /**
-   * The element at row 1, column 1.
-   */
+  /** The element at row 1, column 1. */
   private double a11;
 
-  /** The exception message used in IllegalArgumentExceptions */
+  /** The exception message used in IllegalArgumentExceptions. */
   private static final String EXCEPTION_MESSAGE = "The value has to be a valid number";
 
   /**
@@ -50,7 +43,7 @@ public class Matrix2x2 {
   }
 
   /**
-   * A copy constructor for Matrix2x2
+   * A copy constructor for Matrix2x2.
    *
    * @param matrix The matrix to be copied.
    */
@@ -76,6 +69,7 @@ public class Matrix2x2 {
     double x1 = a10 * vector.getX0() + a11 * vector.getX1();
     return new Vector2D(x0, x1);
   }
+
   /**
    * Gets the element at row 0, column 0.
    *
@@ -120,7 +114,7 @@ public class Matrix2x2 {
    */
   public void setA00(double a00) throws IllegalArgumentException {
     try {
-      Verification.requireANumber(a00);
+      Verification.requireNumber(a00);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException(EXCEPTION_MESSAGE + e.getMessage());
     }
@@ -135,7 +129,7 @@ public class Matrix2x2 {
    */
   public void setA01(double a01) throws IllegalArgumentException {
     try {
-      Verification.requireANumber(a01);
+      Verification.requireNumber(a01);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException(EXCEPTION_MESSAGE + e.getMessage());
     }
@@ -150,7 +144,7 @@ public class Matrix2x2 {
    */
   public void setA10(double a10) throws IllegalArgumentException {
     try {
-      Verification.requireANumber(a10);
+      Verification.requireNumber(a10);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException(EXCEPTION_MESSAGE + e.getMessage());
     }
@@ -165,7 +159,7 @@ public class Matrix2x2 {
    */
   public void setA11(double a11) throws IllegalArgumentException {
     try {
-      Verification.requireANumber(a11);
+      Verification.requireNumber(a11);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException(EXCEPTION_MESSAGE + e.getMessage());
     }
@@ -177,7 +171,7 @@ public class Matrix2x2 {
    */
   @Override
   public String toString() {
-    return "[" + a00 + " " + a01 +
-        "\n " + a10 + " " + a11 + "]";
+    return "[" + a00 + " " + a01
+        + "\n " + a10 + " " + a11 + "]";
   }
 }

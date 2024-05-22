@@ -1,133 +1,110 @@
 package edu.ntnu.stud;
 
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.stage.Stage;
-import javafx.scene.text.Text;
-
-import java.util.Objects;
-
 import static javafx.stage.Screen.getPrimary;
 
+import edu.ntnu.stud.chaos.ChaosGame;
+import edu.ntnu.stud.component.CanvasView;
+import edu.ntnu.stud.component.ParameterInputView;
+import edu.ntnu.stud.controller.ChaosGameController;
+import edu.ntnu.stud.controller.HomePageController;
+import edu.ntnu.stud.controller.ViewController;
+import edu.ntnu.stud.factory.ChaosGameDescriptionFactory;
+import edu.ntnu.stud.utils.ButtonEnum;
+import edu.ntnu.stud.utils.FractalType;
+import edu.ntnu.stud.view.ChaosGameView;
+import edu.ntnu.stud.view.HomePageView;
+import java.util.Objects;
+import javafx.application.Application;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
+
+/**
+ * The main class of the Chaos Game application.
+ * Responsible for initializing the JavaFX application and setting up the primary stage.
+ */
 public class App extends Application {
 
-  public static Stage primaryStage;
+  /** The primary stage of the application. */
+  protected static Stage primaryStage;
 
+  /** The width of the screen. */
+  private static final double SCREEN_WIDTH = getPrimary().getVisualBounds().getWidth();
+
+  /**
+   * Starts the JavaFX application.
+   *
+   * @param primaryStage the primary stage of the application.
+   */
   @Override
-  public void start(Stage primaryStage) throws Exception {
+  public void start(Stage primaryStage) {
     App.primaryStage = primaryStage;
-    Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/image/chaosGame_logo.jpg")));
-    primaryStage.getIcons().add(image);
     primaryStage.setTitle("Chaos Game");
-    ImageView imageView = new ImageView();
-    imageView.setImage(image);
-    imageView.setFitHeight(100);
-    imageView.setFitWidth(100);
 
-    Text text = new Text("Chaos Game");
-    text.getStyleClass().add("title");
+    // Setting application icon
+    Image image = new Image(Objects.requireNonNull(getClass()
+        .getResourceAsStream("/image/chaosGame_logo.jpg")));
+    primaryStage.getIcons().add(image);
 
-    StackPane titlePane = new StackPane();
-    titlePane.getChildren().addAll(text);
-    titlePane.setPadding(new Insets(10));
+    // Creating controllers and setting up views
+    HomePageView homePageView = new HomePageView();
+    HomePageController homePageController = new HomePageController(homePageView);
+    homePageView.addObserver(ButtonEnum.GAME_TYPE, homePageController);
 
-    HBox titleBox = new HBox();
+    ChaosGame chaosGame = new ChaosGame(ChaosGameDescriptionFactory
+        .getDescription(FractalType.SIERPINSKI), 0, 0);
+    ParameterInputView parameterInputView = new ParameterInputView(chaosGame);
+    CanvasView canvasView = new CanvasView(chaosGame);
 
-    titleBox.getChildren().addAll(createFillerPane(), titlePane, imageView, createFillerPane());
+    chaosGame.addObserver(ButtonEnum.TRANSFORM, parameterInputView);
+    chaosGame.addObserver(ButtonEnum.COORDS, parameterInputView);
+    chaosGame.addObserver(ButtonEnum.GAME_NAME, parameterInputView);
+    chaosGame.addObserver(ButtonEnum.CANVAS_CHANGE, canvasView);
 
-    BorderPane borderPane = new BorderPane();
-    borderPane.setTop(titleBox);
+    ChaosGameView chaosGameView = new ChaosGameView(parameterInputView, canvasView);
+    ChaosGameController chaosGameController = new
+        ChaosGameController(chaosGameView, canvasView, chaosGame);
+    chaosGameView.addObserver(ButtonEnum.SCREEN_CHANGE, chaosGameController);
 
-    // Borderpane for the center of the window
-    VBox centerVBox = new VBox();
-    centerVBox.setSpacing(50);
-    centerVBox.setMaxHeight(getPrimary().getVisualBounds().getHeight() * 0.65);
+    canvasView.addObserver(ButtonEnum.CANVAS_CHANGE, chaosGameController);
 
-    // Title for in the top of the center pane
-    Text centerTitle = new Text("Select a Chaos Game");
-    centerTitle.getStyleClass().add("center-title");
+    parameterInputView.addObserver(ButtonEnum.PARAMETER_CHANGE, chaosGameController);
+    parameterInputView.addObserver(ButtonEnum.FRACTAL, chaosGameController);
+    parameterInputView.addObserver(ButtonEnum.COORDS, chaosGameController);
+    parameterInputView.addObserver(ButtonEnum.STEPS, chaosGameController);
+    parameterInputView.addObserver(ButtonEnum.TRANSFORM, chaosGameController);
+    parameterInputView.addObserver(ButtonEnum.SAVEFILE, chaosGameController);
+    parameterInputView.addObserver(ButtonEnum.READFILE, chaosGameController);
+    parameterInputView.addObserver(ButtonEnum.COLORPICKER, chaosGameController);
 
-    HBox centerTitleBox = new HBox(createFillerPane(), centerTitle, createFillerPane());
-    centerVBox.getChildren().add(centerTitleBox);
+    ViewController viewController = new ViewController(primaryStage);
 
-    // The Images and buttons for in the center of the center pane
-    HBox centerHBox = new HBox();
-    centerHBox.setSpacing(50);
+    viewController.addView(ViewController.PageEnum.HOMEPAGE, homePageView);
+    viewController.addView(ViewController.PageEnum.CHAOSGAMEPAGE, chaosGameView);
+    homePageView.addObserver(ButtonEnum.START_GAME, viewController);
 
-    VBox imageButtonBox1 = createImageButtonBox(
-        new Image(Objects.requireNonNull(getClass().getResourceAsStream("/image/sierpinski_triangle.jpg"))),
-            "Sierpinski Triangle",
-            true);
+    homePageView.addObserver(ButtonEnum.START_GAME, chaosGameController);
 
-    VBox imageButtonBox2 = createImageButtonBox(
-        new Image(Objects.requireNonNull(getClass().getResourceAsStream("/image/barnsley_fern.jpg"))),
-        "Barnsley Fern",
-        false);
+    // Setting initial view
+    viewController.setView(ViewController.PageEnum.HOMEPAGE);
 
-    VBox imageButtonBox3 = createImageButtonBox(
-        new Image(Objects.requireNonNull(getClass().getResourceAsStream("/image/julia_set.jpg"))),
-        "Julia Set",
-        false);
+    // Handling screen changes
+    primaryStage.fullScreenProperty().addListener((observable, oldValue, newValue) ->
+        chaosGameController.update(ButtonEnum.SCREEN_CHANGE, String.valueOf(SCREEN_WIDTH)));
 
-    centerHBox.getChildren().addAll(createFillerPane(), imageButtonBox1, imageButtonBox2, imageButtonBox3, createFillerPane());
-    centerVBox.getChildren().add(centerHBox);
-
-    // The start ChaosGame-button for the bottom of the center pane
-    Button startButton = new Button("Start Chaos Game");
-    startButton.getStyleClass().add("start-button");
-
-    HBox bottomHBox = new HBox();
-    bottomHBox.getChildren().addAll(createFillerPane(), startButton, createFillerPane());
-
-    centerVBox.getChildren().add(bottomHBox);
-
-    centerVBox.getChildren().add(createFillerPane());
-    borderPane.setCenter(centerVBox);
-
-    Scene scene = new Scene(borderPane, getPrimary().getVisualBounds().getWidth(),
-        getPrimary().getVisualBounds().getHeight() - 10);
-    scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style/components.css")).toExternalForm());
-    primaryStage.setScene(scene);
+    // Handling close event
+    primaryStage.setOnCloseRequest(e -> {
+      e.consume();
+      viewController.closeProgram();
+    });
 
     primaryStage.show();
   }
 
-  private Pane createFillerPane() {
-    Pane fillerPane = new Pane();
-    HBox.setHgrow(fillerPane, Priority.ALWAYS);
-    VBox.setVgrow(fillerPane, Priority.ALWAYS);
-    return fillerPane;
-  }
-
-  private VBox createImageButtonBox(Image image, String buttonText, boolean checked) {
-    VBox imageButtonBox = new VBox();
-    imageButtonBox.setSpacing(10);
-    imageButtonBox.setAlignment(Pos.CENTER);
-
-    ImageView imageView = new ImageView();
-    imageView.setImage(image);
-    imageView.setFitHeight(150);
-    imageView.setFitWidth(150);
-
-    Button button = new Button(buttonText);
-
-    if (checked) {
-      button.getStyleClass().add("chaos-game-button-checked");
-    } else {
-      button.getStyleClass().add("chaos-game-button");
-    }
-
-    imageButtonBox.getChildren().addAll(imageView, button);
-
-    return imageButtonBox;
-  }
-
+  /**
+   * The main method. Launches the JavaFX application.
+   *
+   * @param args the command-line arguments.
+   */
   public static void main(String[] args) {
     launch(args);
   }

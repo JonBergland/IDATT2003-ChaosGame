@@ -6,11 +6,17 @@ import edu.ntnu.stud.math.Vector2D;
 import edu.ntnu.stud.transform.AffineTransform2D;
 import edu.ntnu.stud.transform.JuliaTransform;
 import edu.ntnu.stud.transform.Transform2D;
-
-import java.io.*;
+import edu.ntnu.stud.utils.FractalType;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 /**
  * The ChaosGameFileHandler class provides methods for reading and
@@ -27,32 +33,31 @@ public class ChaosGameFileHandler {
    * @throws IOException If the specified file is not found.
    */
   public ChaosGameDescription readFromFile(String path) throws IOException {
-    Path filePath = Paths.get("src/main/resources/file/" + path);
-    try(Scanner scanner = new Scanner(filePath)) {
+    Path filePath = Paths.get(path);
+    List<Transform2D> transformation = new ArrayList<>();
+    Vector2D minCoords = null;
+    Vector2D maxCoords = null;
 
-      scanner.useDelimiter("#.*(\r\n|\r|\n|$)");
+    try (Scanner scanner = new Scanner(filePath)) {
 
-      /** Read the transformation type */
-      String transformationType = scanner.next().trim();
+      scanner.useDelimiter("\n");
 
-      // Read the lower left coordinates
-      String lowerLeftLine = scanner.next().trim();
-      String[] lowerLeftCoords = lowerLeftLine.split(", ");
-      double lowerLeftX = Double.parseDouble(lowerLeftCoords[0].trim());
-      double lowerLeftY = Double.parseDouble(lowerLeftCoords[1].trim());
+      if (!scanner.hasNext()) {
+        throw new IOException("File is empty.");
+      }
 
-      // Read the upper right coordinates
-      String upperRightLine = scanner.next().trim();
-      String[] upperRightCoords = upperRightLine.split(", ");
-      double upperRightX = Double.parseDouble(upperRightCoords[0].trim());
-      double upperRightY = Double.parseDouble(upperRightCoords[1].trim());
+      // Read the transformation type
+      String transformationType = scanner.next().split("#")[0].trim().toLowerCase();
 
-      Vector2D minCoords = new Vector2D(lowerLeftX, lowerLeftY);
-      Vector2D maxCoords = new Vector2D(upperRightX, upperRightY);
+      if (!scanner.hasNext()) {
+        throw new IllegalArgumentException("Missing coordinates.");
+      }
 
-      List<Transform2D> transformation = new ArrayList<>();
+      minCoords = parseTheCoords(scanner.next());
+      maxCoords = parseTheCoords(scanner.next());
+
       switch (transformationType) {
-        case "Julia":
+        case FractalType.JULIA:
 
           while (scanner.hasNext() && !scanner.hasNext("#")) {
             String line = scanner.next().split("#")[0].trim();
@@ -70,7 +75,7 @@ public class ChaosGameFileHandler {
             }
           }
           break;
-        case "Affine2D":
+        case FractalType.AFFINE2D:
           // Skip the first line since it contains the type of transform
           scanner.nextLine();
 
@@ -82,7 +87,8 @@ public class ChaosGameFileHandler {
                   .toArray();
 
               // 4 first elements become a matrix
-              Matrix2x2 matrix = new Matrix2x2(transform[0], transform[1], transform[2], transform[3]);
+              Matrix2x2 matrix
+                  = new Matrix2x2(transform[0], transform[1], transform[2], transform[3]);
               // Last 2 elements (b) become a vector
               Vector2D vector = new Vector2D(transform[4], transform[5]);
               // Then put them together into an AffineTransform2D
@@ -96,11 +102,28 @@ public class ChaosGameFileHandler {
           throw new IOException("Unknown transformation type: " + transformationType);
       }
 
-      return new ChaosGameDescription(transformation, minCoords, maxCoords);
-
-    } catch (NumberFormatException | NoSuchElementException | IOException e) {
-      throw new IOException("Wrong format, no such element or file not found:" + e + path);
+    } catch (NoSuchElementException | IOException | IllegalStateException e) {
+      throw new IOException("Error processing file.", e);
+    } catch (NumberFormatException e) {
+      throw new IllegalArgumentException("Invalid format in the file.", e);
     }
+    return new ChaosGameDescription(transformation, minCoords, maxCoords);
+  }
+
+  /**
+   * Parses a line to extract coordinates and returns a Vector2D object.
+   *
+   * @param line The line containing the coordinates.
+   * @return A Vector2D object representing the coordinates.
+   * @throws IllegalArgumentException If the format of the coordinates is invalid.
+   */
+  private static Vector2D parseTheCoords(String line) throws IllegalArgumentException {
+    String[] parts = line.split("#");
+    double[] coords = Arrays.stream(parts[0].split(",")).mapToDouble(Double::parseDouble).toArray();
+    if (coords.length != 2) {
+      throw new IllegalArgumentException("Invalid coordinates format.");
+    }
+    return new Vector2D(coords[0], coords[1]);
   }
 
   /**
@@ -116,7 +139,8 @@ public class ChaosGameFileHandler {
       throw new NullPointerException("ChaosGameDescription cannot be null.");
     }
     try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path))) {
-      bufferedWriter.write(description.getTransforms().getFirst() instanceof AffineTransform2D ? "Affine2D" : "Julia");
+      bufferedWriter.write(description.getTransforms().getFirst() instanceof AffineTransform2D
+          ? FractalType.AFFINE2D : FractalType.JULIA);
       bufferedWriter.newLine();
 
       Vector2D minCoords = description.getMinCoords();
@@ -128,9 +152,7 @@ public class ChaosGameFileHandler {
       bufferedWriter.newLine();
 
       for (Transform2D transform : description.getTransforms()) {
-        for (int i = 0; i < 6; i++) {
-          bufferedWriter.write(transform.toString());
-        }
+        bufferedWriter.write(transform.toString());
         bufferedWriter.newLine();
       }
     } catch (IOException | NoSuchElementException e) {

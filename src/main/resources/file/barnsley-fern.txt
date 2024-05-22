@@ -1,0 +1,7 @@
+Affine2D                      # Type of transform
+-2.65, 0                      # Lower left
+2.65, 10                      # Upper right
+0, 0, 0, .16, 0, 0            # 1st transform (a00, a01, a10, a11, b0, b1)
+.85, .04, -.04, .85, 0, 1.6   # 2st transform
+.2, -.26, .23, .22, 0, 1.6    # 3st transform
+-.15, .28, .26, .24, 0, .44   # 4st transform

@@ -36,6 +36,22 @@ class ChaosCanvasTest {
   }
 
   /**
+   * Test of the constructor with negative width and height.
+   */
+  @Test
+  @DisplayName("Test constructor with negative width and height")
+  void constructorWithNegativeWidthAndHeight() {
+    width = -1;
+    height = -1;
+    ChaosCanvas chaosCanvas = new ChaosCanvas(width, height, minCoords, maxCoords);
+    int[][] canvas = chaosCanvas.getCanvasArray();
+    assertAll("Constructor with negative width and height",
+        () -> assertEquals(500, canvas.length, "Incorrect canvas height"),
+        () -> assertEquals(500, canvas[0].length, "Incorrect canvas width")
+    );
+  }
+
+  /**
    * Test of the getPixel and put pixel methods.
    */
   @Test
@@ -66,6 +82,32 @@ class ChaosCanvasTest {
   }
 
   /**
+   * Tests the {@code getWidth} method.
+   * Ensures that the method returns the correct width of the canvas.
+   */
+  @Test
+  @DisplayName("Test getWidth")
+  void getWidth() {
+    int expectedWidth = 100;
+    int result = chaosCanvas.getWidth();
+    assertNotNull(result, "Width should not be null");
+    assertEquals(expectedWidth, result, "Width should match the expected value");
+  }
+
+  /**
+   * Tests the {@code getHeight} method.
+   * Ensures that the method returns the correct height of the canvas.
+   */
+  @Test
+  @DisplayName("Test getHeight")
+  void getHeight() {
+    int expectedHeight = 100;
+    int result = chaosCanvas.getHeight();
+    assertNotNull(result, "Height should not be null");
+    assertEquals(expectedHeight, result, "Height should match the expected value");
+  }
+
+  /**
    * Test of the clear method.
    */
   @Test
@@ -79,6 +121,43 @@ class ChaosCanvasTest {
         assertEquals(0, canvas[i][j], "Incorrect pixel value");
       }
     }
+  }
+
+  /**
+   * Tests the {@code putPixel} method.
+   * Ensures that the method correctly adds the amount
+   * to the specified pixel on the canvas.
+   */
+  @Test
+  @DisplayName("Test putPixel")
+  void testPutPixel() {
+    int i = 1;
+    int j = 1;
+    int amount = 5;
+
+    int initialValue = chaosCanvas.getCanvasArray()[i][j];
+
+    chaosCanvas.putPixel(i, j, amount);
+    int expectedValue = initialValue + amount;
+    assertEquals(expectedValue, chaosCanvas.getCanvasArray()[i][j],
+        "Pixel value should match the expected value after addition");
+  }
+
+  /**
+   * Tests the {@code putPixel} method with invalid indices.
+   * Ensures that the method throws an
+   * ArrayIndexOutOfBoundsException for out-of-bounds indices.
+   */
+  @Test
+  @DisplayName("Test putPixel with invalid indices")
+  void testPutPixelInvalidIndices() {
+    int i = -1; // Invalid row index
+    int j = -1; // Invalid column index
+    int amount = 5;
+
+    assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+      chaosCanvas.putPixel(i, j, amount);
+    }, "Expected an ArrayIndexOutOfBoundsException for out-of-bounds indices");
   }
 
   /**

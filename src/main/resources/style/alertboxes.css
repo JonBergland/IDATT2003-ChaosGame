@@ -1,0 +1,60 @@
+.text {
+    -fx-font-size: 20;
+    -fx-border-radius: 10;
+}
+
+.chaos-game-button {
+    -fx-background-color: #98ccff;
+}
+
+.chaos-game-button:hover {
+    -fx-background-color: #0a60af;
+}
+
+.chaos-game-button-checked {
+    -fx-background-color: #Ddbea7;
+}
+
+.chaos-game-button-checked:hover {
+    -fx-background-color: #996244;
+}
+
+.start-button-blue {
+    -fx-background-color:  #5da6f1;
+    -fx-font-size: 20;
+}
+.start-button-blue:hover {
+    -fx-background-color: #c6e3ff;
+}
+
+.ok-button {
+    -fx-background-color: #Ddbea7;
+    -fx-font-size: 16;
+}
+.ok-button:hover {
+    -fx-background-color: #996244;
+    -fx-text-fill: white;
+}
+
+.yes-button {
+    -fx-background-color: #4CAF50;
+}
+
+.yes-button:hover {
+    -fx-background-color: #337535;
+    -fx-text-fill: white;
+}
+
+.no-button {
+    -fx-background-color: #ff5e5e;
+}
+
+.no-button:hover {
+    -fx-background-color: #c53225;
+    -fx-text-fill: white;
+}
+
+.blue {
+    -fx-background-color: #c6e3ff;
+    -fx-font-size: 16;
+}

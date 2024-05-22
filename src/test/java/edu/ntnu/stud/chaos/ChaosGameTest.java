@@ -4,15 +4,19 @@
 
 package edu.ntnu.stud.chaos;
 
+import edu.ntnu.stud.math.Complex;
 import edu.ntnu.stud.math.Matrix2x2;
 import edu.ntnu.stud.math.Vector2D;
 import edu.ntnu.stud.transform.AffineTransform2D;
+import edu.ntnu.stud.transform.JuliaTransform;
 import edu.ntnu.stud.transform.Transform2D;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -66,19 +70,314 @@ class ChaosGameTest {
     chaosGame = new ChaosGame(chaosGameDescription, width, height);
   }
 
-  /**
-   * Test for getting the canvas.
-   */
-  @Test
-  @DisplayName("Get Canvas")
-  void getCanvas() {
-    ChaosCanvas canvas = new ChaosCanvas(width, height, minCoords, maxCoords);
+  @Nested
+  @DisplayName("Constructor")
+  class ChaosGameConstructor {
+    @Test
+    @DisplayName("Create Chaos Game")
+    void createChaosGame() {
+      assertAll("Create Chaos Game",
+          () -> assertNotNull(chaosGame, "Chaos Game is null"),
+          () -> assertEquals(chaosGameDescription, chaosGame.getDescription(), "Incorrect Chaos Game Description"),
+          () -> assertEquals(width, chaosGame.getWidth(), "Incorrect width"),
+          () -> assertEquals(height, chaosGame.getHeight(), "Incorrect height")
+      );
+    }
 
-    assertAll("Get canvas",
-        () -> assertNotNull(chaosGame.getCanvas(), "Canvas is null"),
-        () -> assertEquals(canvas.getClass(), chaosGame.getCanvas().getClass(), "Incorrect canvas class"),
-        () -> assertEquals(canvas.getCanvasArray().length, chaosGame.getCanvas().getCanvasArray().length, "Incorrect canvas height"),
-        () -> assertEquals(canvas.getCanvasArray()[0].length, chaosGame.getCanvas().getCanvasArray()[0].length, "Incorrect canvas width")
-        );
+    @Test
+    @DisplayName("Create Chaos Game with null Chaos Game Description")
+    void createChaosGameWithNullChaosGameDescription() {
+      assertThrows(IllegalArgumentException.class, () -> new ChaosGame(null, width, height), "Chaos Game Description is null");
+    }
+
+    @Test
+    @DisplayName("Create Chaos Game with negative width")
+    void createChaosGameWithNegativeWidth() {
+      int negativeWidth = -100;
+      int placeholderHeight = 100;
+      int expectedWidth = 500;
+
+      chaosGame = new ChaosGame(chaosGameDescription, negativeWidth, placeholderHeight);
+
+      assertEquals(expectedWidth, chaosGame.getWidth(), "Incorrect width");
+    }
+
+    @Test
+    @DisplayName("Create Chaos Game with negative height")
+    void createChaosGameWithNegativeHeight() {
+      int placeholderWitdh = 100;
+      int negativeHeight = -100;
+      int expectedHeight = 500;
+
+      chaosGame = new ChaosGame(chaosGameDescription, placeholderWitdh, negativeHeight);
+
+      assertEquals(expectedHeight, chaosGame.getHeight(), "Incorrect height");
+    }
+  }
+
+  @Nested
+  @DisplayName("Getters and Setters")
+  class ChaosGameGettersAndSetters {
+    @Test
+    @DisplayName("Get Description")
+    void getDescription() {
+      assertEquals(chaosGameDescription, chaosGame.getDescription(), "Incorrect Chaos Game Description");
+    }
+
+    @Test
+    @DisplayName("Set Description")
+    void setDescription() {
+      List<Transform2D> affineTransform2DList = new ArrayList<>();
+      Vector2D vector1 = new Vector2D(0, 0);
+      Matrix2x2 matrix = new Matrix2x2(0.5, 0, 0, 0.5);
+
+      AffineTransform2D affineTransform2D = new AffineTransform2D(matrix, vector1);
+      affineTransform2DList.add(affineTransform2D);
+
+      ChaosGameDescription newChaosGameDescription = new ChaosGameDescription(affineTransform2DList, minCoords, maxCoords);
+      chaosGame.setDescription(newChaosGameDescription);
+
+      assertAll("Set Description",
+          () -> assertNotNull(chaosGame.getDescription(), "Chaos Game Description is null"),
+          () -> assertEquals(affineTransform2DList, chaosGame.getDescription().getTransforms(), "Incorrect Chaos Transforms"),
+          () -> assertEquals(minCoords.getX0(), chaosGame.getDescription().getMinCoords().getX0(), "Incorrect X0 Min Coords"),
+          () -> assertEquals(minCoords.getX1(), chaosGame.getDescription().getMinCoords().getX1(), "Incorrect X1 Min Coords"),
+          () -> assertEquals(maxCoords.getX0(), chaosGame.getDescription().getMaxCoords().getX0(), "Incorrect X0 Max Coords"),
+          () -> assertEquals(maxCoords.getX1(), chaosGame.getDescription().getMaxCoords().getX1(), "Incorrect X1 Max Coords")
+      );
+    }
+
+    @Test
+    @DisplayName("Set Description with same Chaos Game Description")
+    void setDescriptionWithSameChaosGameDescription() {
+      chaosGame.setDescription(chaosGameDescription);
+
+      assertAll("Set Description",
+          () -> assertNotNull(chaosGame.getDescription(), "Chaos Game Description is null"),
+          () -> assertEquals(chaosGameDescription, chaosGame.getDescription(), "Incorrect Chaos Game Description")
+      );
+    }
+
+    @Test
+    @DisplayName("Set Description with null Chaos Game Description")
+    void setDescriptionWithNullChaosGameDescription() {
+      assertThrows(IllegalArgumentException.class, () -> chaosGame.setDescription(null), "Chaos Game Description is null");
+    }
+
+    @Test
+    @DisplayName("Get Width")
+    void getWidth() {
+      assertEquals(width, chaosGame.getWidth(), "Incorrect width");
+    }
+
+    @Test
+    @DisplayName("Set Width")
+    void setWidth() {
+      int newWidth = 200;
+      chaosGame.setWidth(newWidth);
+
+      assertEquals(newWidth, chaosGame.getWidth(), "Incorrect width");
+    }
+
+    @Test
+    @DisplayName("Get Height")
+    void getHeight() {
+      assertEquals(height, chaosGame.getHeight(), "Incorrect height");
+    }
+
+    @Test
+    @DisplayName("Set Height")
+    void setHeight() {
+      int newHeight = 200;
+      chaosGame.setHeight(newHeight);
+
+      assertEquals(newHeight, chaosGame.getHeight(), "Incorrect height");
+    }
+
+    /**
+     * Test for getting the canvas.
+     */
+    @Test
+    @DisplayName("Get Canvas")
+    void getCanvas() {
+      ChaosCanvas canvas = new ChaosCanvas(width, height, minCoords, maxCoords);
+
+      assertAll("Get canvas",
+          () -> assertNotNull(chaosGame.getCanvas(), "Canvas is null"),
+          () -> assertEquals(canvas.getClass(), chaosGame.getCanvas().getClass(), "Incorrect canvas class"),
+          () -> assertEquals(canvas.getCanvasArray().length, chaosGame.getCanvas().getCanvasArray().length, "Incorrect canvas height"),
+          () -> assertEquals(canvas.getCanvasArray()[0].length, chaosGame.getCanvas().getCanvasArray()[0].length, "Incorrect canvas width")
+      );
+    }
+
+    /**
+     * Test for getting the chaos game name.
+     */
+    @Test
+    @DisplayName("Get Chaos Game Name")
+    void getChaosGameName() {
+      String chaosGameName = "Not set";
+
+      assertEquals(chaosGameName, chaosGame.getChaosGameName(), "Incorrect Chaos Game Name");
+    }
+
+    /**
+     * Test for setting the chaos game name.
+     */
+    @Test
+    @DisplayName("Set Chaos Game Name")
+    void setChaosGameName() {
+      String newChaosGameName = "Barnsley Fern";
+      chaosGame.setChaosGameName(newChaosGameName);
+
+      assertEquals(newChaosGameName, chaosGame.getChaosGameName(), "Incorrect Chaos Game Name");
+    }
+  }
+
+  @Nested
+  @DisplayName("UpdateMinMaxCoords")
+  class ChaosGameUpdateMinMaxCoords {
+    @Test
+    @DisplayName("Test updateMinMaxCoords with positive values")
+    void testUpdateMinMaxCoordsWithPositiveValues() {
+      double minX0 = 1;
+      double minX1 = 1;
+      double maxX0 = 2;
+      double maxX1 = 2;
+
+      chaosGame.updateMinAndMaxCoords(minX0, minX1, maxX0, maxX1);
+
+      assertAll("Update Min Max Coords",
+          () -> assertEquals(minX0, chaosGame.getDescription().getMinCoords().getX0(), "Incorrect X0 Min Coords"),
+          () -> assertEquals(minX1, chaosGame.getDescription().getMinCoords().getX1(), "Incorrect X1 Min Coords"),
+          () -> assertEquals(maxX0, chaosGame.getDescription().getMaxCoords().getX0(), "Incorrect X0 Max Coords"),
+          () -> assertEquals(maxX1, chaosGame.getDescription().getMaxCoords().getX1(), "Incorrect X1 Max Coords")
+      );
+    }
+
+    @Test
+    @DisplayName("Test updateMinMaxCoords with min coords greater than max coords")
+    void testUpdateMinMaxCoordsWithMinCoordsGreaterThanMaxCoords() {
+      double minValue = 1;
+      double maxValue = 2;
+
+      assertAll(
+          () -> assertThrows(IllegalArgumentException.class, () -> chaosGame.updateMinAndMaxCoords(maxValue, minValue, minValue, maxValue),
+              "Min coords are greater than max coords"),
+          () -> assertThrows(IllegalArgumentException.class, () -> chaosGame.updateMinAndMaxCoords(minValue, maxValue, maxValue, minValue),
+              "Min coords are greater than max coords")
+      );
+    }
+
+    @Test
+    @DisplayName("Test updateMinMaxCoords with the same min and max coords as description")
+    void testUpdateMinMaxCoordsWithSameMinMaxCoordsAsDescription() {
+      double minX0 = chaosGame.getDescription().getMinCoords().getX0();
+      double minX1 = chaosGame.getDescription().getMinCoords().getX1();
+      double maxX0 = chaosGame.getDescription().getMaxCoords().getX0();
+      double maxX1 = chaosGame.getDescription().getMaxCoords().getX1();
+
+      chaosGame.updateMinAndMaxCoords(minX0, minX1, maxX0, maxX1);
+
+      assertAll("Update Min Max Coords",
+          () -> assertEquals(minX0, chaosGame.getDescription().getMinCoords().getX0(), "Incorrect X0 Min Coords"),
+          () -> assertEquals(minX1, chaosGame.getDescription().getMinCoords().getX1(), "Incorrect X1 Min Coords"),
+          () -> assertEquals(maxX0, chaosGame.getDescription().getMaxCoords().getX0(), "Incorrect X0 Max Coords"),
+          () -> assertEquals(maxX1, chaosGame.getDescription().getMaxCoords().getX1(), "Incorrect X1 Max Coords")
+      );
+    }
+  }
+
+  @Nested
+  @DisplayName("Run steps")
+  class ChaosGameRunSteps {
+    @Test
+    @DisplayName("Run Chaos Game with less than 0 steps")
+    void runChaosGameWithLessThan0Steps() {
+      int steps = -1;
+
+      assertThrows(IllegalArgumentException.class, () -> chaosGame.runSteps(steps), "Number of steps is 0");
+    }
+
+    @Test
+    @DisplayName("Run Chaos Game with 1 step")
+    void runChaosGameWithOneStep() {
+      int steps = 1;
+      chaosGame.runSteps(steps);
+
+      int maxValue = Arrays.stream(chaosGame.getCanvas().getCanvasArray())
+          .flatMapToInt(Arrays::stream)
+          .max()
+          .orElse(1);
+
+      assertEquals(1, maxValue, "Incorrect max value");
+    }
+
+    @Test
+    @DisplayName("Run Chaos Game with incorrect description")
+    void runChaosGameWithIncorrectDescription() {
+      List<Transform2D> affineTransform2DList = new ArrayList<>();
+      Vector2D vector1 = new Vector2D(1, 1);
+      Matrix2x2 matrix = new Matrix2x2(1, 1, 1, 1);
+
+      AffineTransform2D affineTransform2D = new AffineTransform2D(matrix, vector1);
+      affineTransform2DList.add(affineTransform2D);
+
+      ChaosGameDescription newChaosGameDescription = new ChaosGameDescription(affineTransform2DList, minCoords, maxCoords);
+      chaosGame.setDescription(newChaosGameDescription);
+
+      int steps = 100;
+
+      assertThrows(IllegalArgumentException.class, () -> chaosGame.runSteps(steps), "Incorrect description");
+    }
+  }
+
+  @Nested
+  @DisplayName("Run Julia Methods")
+  class ChaosGameRunJuliaMethods {
+    @Test
+    @DisplayName("Run Iterative Julia Method with incorrect description")
+    void runIterativeJuliaMethod() {
+      assertThrows(IllegalArgumentException.class, () -> chaosGame.runIterativeJuliaMethod(), "Transformation type is Julia");
+    }
+
+    @Test
+    @DisplayName("Run Iterative Julia Method with correct description")
+    void runIterativeJuliaMethodWithCorrectDescription() {
+      List<Transform2D> juliaTransformList = new ArrayList<>();
+      Complex juliaConstant = new Complex(0.35, 0.35);
+      JuliaTransform juliaTransform = new JuliaTransform(juliaConstant, 1);
+      JuliaTransform juliaTransform2 = new JuliaTransform(juliaConstant, -1);
+      juliaTransformList.add(juliaTransform);
+      juliaTransformList.add(juliaTransform2);
+
+      minCoords = new Vector2D(-1.6, -1);
+      maxCoords = new Vector2D(1.6, 1 );
+
+      ChaosGameDescription newChaosGameDescription = new ChaosGameDescription(juliaTransformList, minCoords, maxCoords);
+      chaosGame.setDescription(newChaosGameDescription);
+
+      chaosGame.runIterativeJuliaMethod();
+
+      int maxValue = Arrays.stream(chaosGame.getCanvas().getCanvasArray())
+          .flatMapToInt(Arrays::stream)
+          .max()
+          .orElse(1);
+
+      assertEquals(1000, maxValue, "Incorrect max value");
+    }
+
+    @Test
+    @DisplayName("Run Mandelbrot Method")
+    void runMandelbrotMethod() {
+      chaosGame.runMandelbrotMethod();
+
+      int maxValue = Arrays.stream(chaosGame.getCanvas().getCanvasArray())
+          .flatMapToInt(Arrays::stream)
+          .max()
+          .orElse(1);
+
+      assertEquals(1000, maxValue, "Incorrect max value");
+    }
   }
 }

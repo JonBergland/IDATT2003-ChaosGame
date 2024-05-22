@@ -86,7 +86,11 @@ class ChaosGameDescriptionTest {
     @Test
     @DisplayName("Test constructor with null input")
     void constructorWithNullInput() {
-      assertThrows(IllegalArgumentException.class, () -> new ChaosGameDescription(null, null, null));
+      assertAll("Null input",
+          () -> assertThrows(IllegalArgumentException.class, () -> new ChaosGameDescription(null, minCoords, maxCoords)),
+          () -> assertThrows(IllegalArgumentException.class, () -> new ChaosGameDescription(transform, null, maxCoords)),
+          () -> assertThrows(IllegalArgumentException.class, () -> new ChaosGameDescription(transform, minCoords, null))
+      );
     }
   }
 
@@ -138,6 +142,118 @@ class ChaosGameDescriptionTest {
           () -> assertEquals(0, description.getMinCoords().getX0()),
           () -> assertEquals(0, description.getMinCoords().getX1()),
           () -> assertNotEquals(minCoords, description.getMinCoords())
+      );
+    }
+
+    /**
+     * Tests the {@code setMinCoords} method.
+     * Ensures that the minimum coordinates are set correctly.
+     */
+    @Test
+    @DisplayName("Test setMinCoords")
+    void testSetMinCoords() {
+      double x0 = -2.0;
+      double x1 = -1.5;
+
+      description.setMinCoords(x0, x1);
+
+      assertEquals(x0, description.getMinCoords().getX0(),
+          "Minimum x0 coordinate should match the expected value");
+      assertEquals(x1, description.getMinCoords().getX1(),
+          "Minimum x1 coordinate should match the expected value");
+    }
+
+    /**
+     * Tests the {@code setMaxCoords} method.
+     * Ensures that the maximum coordinates are set correctly.
+     */
+    @Test
+    @DisplayName("Test setMaxCoords")
+    void testSetMaxCoords() {
+      double x0 = 2.0;
+      double x1 = 1.5;
+
+      description.setMaxCoords(x0, x1);
+
+      assertEquals(x0, description.getMaxCoords().getX0(),
+          "Maximum x0 coordinate should match the expected value");
+      assertEquals(x1, description.getMaxCoords().getX1(),
+          "Maximum x1 coordinate should match the expected value");
+    }
+  }
+
+  /**
+   * Nested tests for ChaosGameDescription set-methods.
+   */
+  @Nested
+  @DisplayName("Tests for ChaosGameDescription set-methods")
+  class SetMethodsTests {
+
+    /**
+     * Test setTransforms method.
+     */
+    @Test
+    @DisplayName("Test setTransforms method")
+    void setTransforms() {
+      List<Transform2D> newTransforms = new ArrayList<>();
+      Transform2D newTransform1 = new AffineTransform2D(new Matrix2x2(0.5, 0, 0, 0.5), new Vector2D(0, 0));
+      Transform2D newTransform2 = new AffineTransform2D(new Matrix2x2(0.5, 0, 0, 0.5), new Vector2D(0.25, 0.5));
+      Transform2D newTransform3 = new AffineTransform2D(new Matrix2x2(0.5, 0, 0, 0.5), new Vector2D(0.5, 0));
+
+      newTransforms.add(newTransform1);
+      newTransforms.add(newTransform2);
+      newTransforms.add(newTransform3);
+
+      description.setTransforms(newTransforms);
+
+      description.getTransforms().forEach(t -> assertTrue(newTransforms.contains(t)));
+    }
+
+    /**
+     * Test setTransforms method with not same object.
+     */
+    @Test
+    @DisplayName("Test setTransforms method not same object")
+    void setTransformsNotSameObject() {
+      List<Transform2D> newTransforms = new ArrayList<>();
+      Transform2D newTransform1 = new AffineTransform2D(new Matrix2x2(0.5, 0, 0, 0.5), new Vector2D(0, 0));
+      Transform2D newTransform2 = new AffineTransform2D(new Matrix2x2(0.5, 0, 0, 0.5), new Vector2D(0.25, 0.5));
+      Transform2D newTransform3 = new AffineTransform2D(new Matrix2x2(0.5, 0, 0, 0.5), new Vector2D(0.5, 0));
+
+      newTransforms.add(newTransform1);
+      newTransforms.add(newTransform2);
+      newTransforms.add(newTransform3);
+
+      description.setTransforms(newTransforms);
+
+      assertNotSame(newTransforms, description.getTransforms());
+    }
+
+    /**
+     * Test setTransforms method with null input.
+     */
+    @Test
+    @DisplayName("Test setTransforms method with null input")
+    void setTransformsWithNullInput() {
+      assertAll(
+          () -> assertThrows(IllegalArgumentException.class, () -> description.setTransforms(null)),
+          () -> assertThrows(IllegalArgumentException.class, () -> description.setTransforms(new ArrayList<>()))
+      );
+    }
+
+    /**
+     * Test setTransforms method with same object.
+     */
+    @Test
+    @DisplayName("Test setTransforms method with same object")
+    void setTransformsWithSameObject() {
+
+      description.setTransforms(transform);
+
+      assertAll("Same object",
+          () -> assertSame(transform.size(), description.getTransforms().size()),
+          () -> assertSame(transform.getFirst(), description.getTransforms().getFirst()),
+          () -> assertSame(transform.getLast(), description.getTransforms().getLast())
       );
     }
   }
